@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import axios from "axios";
+import logo from "./logo.svg";
+import "./App.css";
 
+const apiBaseUrl = "http://api.icndb.com";
 function App() {
+  const [joke, setJoke] = React.useState(
+    "If Chuck Norris was using this application, he'd have clicked the joke button by now"
+  );
+  const fetchRandomJoke = async () => {
+    const { data } = await axios.get(
+      `${apiBaseUrl}/jokes/random?exclude=[explicit]`
+    );
+    setJoke(data.value.joke);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={fetchRandomJoke}>Random joke</button>
+      {joke}
     </div>
   );
 }
