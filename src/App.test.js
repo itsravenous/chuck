@@ -32,3 +32,19 @@ it('fetches a random joke when the button is clicked, excluding explicit jokes',
   await findByText('Mock joke content here 😂');
   expect(scope.isDone()).toBe(true);
 });
+
+it('displays an appropriate error message when the random joke service call fails', async () => {
+  const scope = nock('http://api.icndb.com')
+    .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
+    .get('/jokes/random?exclude=[explicit]')
+    .reply(500);
+  const { getByText, findByText } = render(<App />);
+
+  const button = getByText(/random joke/i);
+  fireEvent.click(button);
+
+  await findByText(
+    'Chuck Norris has declined your ridiculous request for a joke 🤠'
+  );
+  expect(scope.isDone()).toBe(true);
+});
