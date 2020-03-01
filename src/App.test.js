@@ -11,6 +11,8 @@ const mockJoke = {
     categories: []
   }
 };
+const queryMatcher = query =>
+  query.exclude === '[explicit]' && query.escape === 'javascript';
 
 it('displays an appropriate initial message', () => {
   const { getByText } = render(<App />);
@@ -22,7 +24,8 @@ it('displays an appropriate initial message', () => {
 it('fetches a random joke when the button is clicked, excluding explicit jokes', async () => {
   const scope = nock('http://api.icndb.com')
     .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
-    .get('/jokes/random?exclude=[explicit]')
+    .get('/jokes/random')
+    .query(queryMatcher)
     .reply(200, mockJoke);
   const { getByText, findByText } = render(<App />);
 
@@ -36,7 +39,8 @@ it('fetches a random joke when the button is clicked, excluding explicit jokes',
 it('displays an appropriate error message when the random joke service call fails', async () => {
   const scope = nock('http://api.icndb.com')
     .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
-    .get('/jokes/random?exclude=[explicit]')
+    .get('/jokes/random')
+    .query(queryMatcher)
     .reply(500);
   const { getByText, findByText } = render(<App />);
 

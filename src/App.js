@@ -15,7 +15,7 @@ function App() {
   const fetchRandomJoke = async () => {
     try {
       const { data } = await axios.get(
-        `${apiBaseUrl}/jokes/random?exclude=[explicit]`
+        `${apiBaseUrl}/jokes/random?exclude=[explicit]&escape=javascript`
       );
       setJoke(data.value.joke);
     } catch {
