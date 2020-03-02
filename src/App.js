@@ -34,15 +34,17 @@ function App() {
 
   return (
     <div className="chuck">
-      <img className="chuck__image" alt="Chuck says:" src={chuck} />
+      <div className="chuck__main">
+        <img className="chuck__image" alt="Chuck says:" src={chuck} />
 
-      <div className="chuck__buttons">
-        <button onClick={fetchRandomJoke}>Random joke</button>
-        <button onClick={gotoSearch}>Search jokes</button>
-      </div>
-      <div className="chuck__message">
-        {joke}
-        {error}
+        <div className="chuck__buttons">
+          <button onClick={fetchRandomJoke}>Random joke</button>
+          <button onClick={gotoSearch}>Search jokes</button>
+        </div>
+        <div className="chuck__message">
+          {joke}
+          {error}
+        </div>
       </div>
       <Router>
         <SearchForm
