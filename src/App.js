@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Router, navigate } from '@reach/router';
-import logo from './logo.svg';
+import chuck from './chuck.jpg';
 import './App.css';
 
 const initialMessage =
@@ -32,11 +32,17 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <button onClick={fetchRandomJoke}>Random joke</button>
-      <button onClick={gotoSearch}>Search jokes</button>
-      {joke}
-      {error}
+    <div className="chuck">
+      <img className="chuck__image" alt="Chuck says:" src={chuck} />
+
+      <div className="chuck__buttons">
+        <button onClick={fetchRandomJoke}>Random joke</button>
+        <button onClick={gotoSearch}>Search jokes</button>
+      </div>
+      <div className="chuck__message">
+        {joke}
+        {error}
+      </div>
       <Router>
         <SearchForm
           path="/search"
@@ -63,7 +69,13 @@ const SearchForm = ({ onSubmit }) => {
   };
 
   return (
-    <>
+    <form
+      className="chuck-search"
+      onSubmit={e => {
+        e.preventDefault();
+        handleSubmit(name);
+      }}
+    >
       <label htmlFor="name">Enter an inferior name</label>
       <input
         id="name"
@@ -71,14 +83,10 @@ const SearchForm = ({ onSubmit }) => {
         onChange={e => handleNameChange(e.target.value)}
         value={name}
       />
-      <button
-        disabled={!isValid}
-        onClick={() => handleSubmit(name)}
-        type="submit"
-      >
+      <button disabled={!isValid} type="submit">
         Submit
       </button>
-    </>
+    </form>
   );
 };
 
